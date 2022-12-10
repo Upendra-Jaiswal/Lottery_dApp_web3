@@ -18,7 +18,7 @@ contract Lottery{
          players.push(payable(msg.sender));
 
     }
-function getbalance() public view returns(uint){
+function getBalance() public view returns(uint){
 
 require(manager==msg.sender,"You are not the manager");
 return address(this).balance;
@@ -40,7 +40,7 @@ function pickWinner() public{
     uint index = r%players.length;
 
     winner = players[index];
-    winner.transfer(getbalance());
+    winner.transfer(getBalance());
     players= new address payable[](0);
 
 

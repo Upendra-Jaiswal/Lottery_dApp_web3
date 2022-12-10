@@ -6,28 +6,39 @@ const [account,setAccount]= useState("");
 const [cbalance,setCbalance]=useState(0); // cbalance = contract balance
 const [lwinner,setLwinner]=useState("no winner yet"); //lwinner = lottery winner
 
+const setAccountListener= (provider)=>{
+provider.on("accountsChanged",(accounts)=>{
+  setAccount(accounts[0]) 
+})
+}
+
 
 useEffect(()=>{
-    const getAccounts = async()=>{
+    const getAccount = async()=>{
         const {web3} = state;
         const accounts = await web3.eth.getAccounts();
         console.log(accounts);
+        console.log(accounts[0]);
+        setAccountListener(web3.givenProvider)
         setAccount(accounts[0]);
     }
-    state.web3 && getAccounts()
+    state.web3 && getAccount()
 },[state,state.web3])
 
 
 const contractBalance = async()=>{
-    const{contract} =  state;
+    const {contract} =  state;
 try{
 
-    const balance = await contract.methods.getBalance().call({from:account})
+    const balance = await contract.methods
+    .getBalance()
+    .call({from:account});
+
     console.log(balance);
     setCbalance(balance);
 }
 catch(e){
-setCbalance("you are not manager");
+setCbalance("You are not the manager");
 }
 }
 
@@ -45,7 +56,7 @@ const winner = async()=>{
 catch(e){
 
     if(e.message.includes("you are not the manager")){
-        setLwinner("you are not the winner");
+        setLwinner("you are not the manager");
     }
     else if(e.message.includes("players are less than 3")){
         setLwinner("less than 3 players");

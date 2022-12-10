@@ -1,5 +1,8 @@
+
+
 {
   "dependencies": {
-    "@truffle/hdwallet-provider": "^2.1.2"
+    "create-react-app": "^5.0.1",
+    "web3": "^1.8.1"
   }
 }
